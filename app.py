@@ -20,10 +20,23 @@ authenticator = stauth.Authenticate(
 name, authentication_status, username = authenticator.login('Login', 'main')
 if authentication_status:
     authenticator.logout('Logout', 'main')
-    page = st.sidebar.selectbox("探索", ("历史上","小数学事实","随机事实","年事实"))
+    page = st.sidebar.selectbox("探索", ("历史上的今天","历史上","小数学事实","随机事实","年事实"))
 
+    if page == "历史上的今天":
+        st.title("历史上的今天")
+        url = "https://today-in-history.p.rapidapi.com/thisday"
 
-    if page == "历史上":
+        headers = {
+            "X-RapidAPI-Key": "bd10c657b4msh6dbd4f9bf219b22p14f68ajsn0d507d4fae87",
+            "X-RapidAPI-Host": "today-in-history.p.rapidapi.com"
+        }
+
+        response = requests.request("GET", url, headers=headers)
+
+        print(response.text)
+        st.text(response.text)
+
+    elif page == "历史上":
         st.title("历史上")
         mm = st.slider("月",1,12,1,1)
         dd = st.slider("日",1,31,1,1)
